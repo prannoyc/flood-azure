@@ -3,8 +3,6 @@ $ProgressPreference = 'SilentlyContinue'
 Set-StrictMode -Version Latest
 
 $access_token = $env:MY_FLOOD_TOKEN
-Write-Host "This works: $env:MY_MAPPED_ENV_VAR"
-
 $api_url = "https://api.flood.io"
 $script_path = 'scripts/01-shopping-cart/cart1.ts'
 
@@ -29,7 +27,7 @@ $LF = "`r`n";
 $contentType = "multipart/form-data; boundary=`"$boundary`""
 $payload = (
     "--$boundary",
-    "Content-Disposition: form-data; name=`"flood_files[]`"; filename=`"jmeter_1000rpm.jmx`"",
+    "Content-Disposition: form-data; name=`"flood_files[]`"; filename=`"cart1.ts`"",
     "Content-Type: application/octet-stream$LF",
     $fileEnc,
     "--$boundary--$LF"
