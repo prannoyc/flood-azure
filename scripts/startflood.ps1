@@ -2,7 +2,9 @@
 $ProgressPreference = 'SilentlyContinue'
 Set-StrictMode -Version Latest
 
-$access_token = $Env:FLOOD_API_TOKEN
+$access_token = $env:MY_FLOOD_TOKEN
+Write-Host "This works: $env:MY_MAPPED_ENV_VAR"
+
 $api_url = "https://api.flood.io"
 $script_path = '01-shopping-cart/cart1.ts'
 
@@ -13,8 +15,8 @@ $script_path = '01-shopping-cart/cart1.ts'
 # $script_path = "$ScriptDirectory\jmeter_1000rpm.jmx";
 
 $uri = "$api_url/api/floods?flood[tool]=flood-chrome&flood[threads]=1&flood[project]=Default&flood[privacy]=public&flood[name]=myAzureTest&flood[grids][][infrastructure]=demand&flood[grids][][instance_quantity]=1&flood[grids][][region]=us-east-1&flood[grids][][instance_type]=m5.xlarge&flood[grids][][stop_after]=60"
-#$bytes = [System.Text.Encoding]::ASCII.GetBytes($Env:FLOOD_API_TOKEN)
-$base64 = [System.Convert]::ToBase64String($access_token)
+$bytes = [System.Text.Encoding]::ASCII.GetBytes($access_token)
+$base64 = [System.Convert]::ToBase64String($bytes)
 $basicAuthValue = "Basic $base64"
 $headers = @{
     'Authorization' = $basicAuthValue
