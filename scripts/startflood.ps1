@@ -2,9 +2,9 @@
 $ProgressPreference = 'SilentlyContinue'
 Set-StrictMode -Version Latest
 
-$access_token = "flood_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+$access_token = "$(flood_api_token)"
 $api_url = "https://api.flood.io"
-$script_path = 'c:\flood\jmeter_1000rpm.jmx';
+$script_path = '01-shopping-cart/cart1.ts';
 
 # local testing
 # $ScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
@@ -12,7 +12,7 @@ $script_path = 'c:\flood\jmeter_1000rpm.jmx';
 # $api_url="http://10.0.2.2:3000"
 # $script_path = "$ScriptDirectory\jmeter_1000rpm.jmx";
 
-$uri = "$api_url/api/floods?flood[tool]=jmeter&flood[threads]=1&flood[project]=Default&flood[privacy]=public&flood[name]=mySG2Test&flood[grids][][infrastructure]=demand&flood[grids][][instance_quantity]=1&flood[grids][][region]=us-east-1&flood[grids][][instance_type]=m5.xlarge&flood[grids][][stop_after]=60"
+$uri = "$api_url/api/floods?flood[tool]=flood-chrome&flood[threads]=1&flood[project]=Default&flood[privacy]=public&flood[name]=myAzureTest&flood[grids][][infrastructure]=demand&flood[grids][][instance_quantity]=1&flood[grids][][region]=us-east-1&flood[grids][][instance_type]=m5.xlarge&flood[grids][][stop_after]=60"
 $bytes = [System.Text.Encoding]::ASCII.GetBytes($access_token)
 $base64 = [System.Convert]::ToBase64String($bytes)
 $basicAuthValue = "Basic $base64"
