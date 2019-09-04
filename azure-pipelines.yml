@@ -15,4 +15,4 @@ steps:
 
 - task: PowerShell@2
   inputs:
-    filePath: 'startflood.ps1'
+    filePath: 'scripts/startflood.ps1'
