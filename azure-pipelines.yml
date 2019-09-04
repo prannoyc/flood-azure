@@ -13,3 +13,6 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
+- task: PowerShell@2
+  inputs:
+    filePath: 'startflood.ps1'
