@@ -2,9 +2,9 @@
 $ProgressPreference = 'SilentlyContinue'
 Set-StrictMode -Version Latest
 
-$access_token = "$(flood_api_token)"
+$access_token = $Env:FLOOD_API_TOKEN
 $api_url = "https://api.flood.io"
-$script_path = '01-shopping-cart/cart1.ts';
+$script_path = '01-shopping-cart/cart1.ts'
 
 # local testing
 # $ScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
