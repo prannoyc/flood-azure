@@ -15,4 +15,4 @@ steps:
 
 - task: PowerShell@2
   inputs:
-    filePath: 'scripts/startflood.ps1'
+    filePath: '$(Agent.BuildDirectory)/scripts/startflood.ps1'
