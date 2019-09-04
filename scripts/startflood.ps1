@@ -6,7 +6,7 @@ $access_token = $env:MY_FLOOD_TOKEN
 Write-Host "This works: $env:MY_MAPPED_ENV_VAR"
 
 $api_url = "https://api.flood.io"
-$script_path = '01-shopping-cart/cart1.ts'
+$script_path = 'scripts/01-shopping-cart/cart1.ts'
 
 # local testing
 # $ScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
