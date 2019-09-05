@@ -58,3 +58,8 @@ catch {
     Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Response body: $responseBody"
 
 }
+
+$outFloodID = [str]$responseBody.uuid
+
+Write-Host "##vso[task.setvariable variable=myFloodID;]$outFloodID"
+Write-Host "Set environment variable to ($env:FLOODID)"
