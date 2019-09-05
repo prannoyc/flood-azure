@@ -43,18 +43,14 @@ catch {
     $errorMessage = $_.Exception.Message
     if (Get-Member -InputObject $_.Exception -Name 'Response') {
         write-output $_.Exception.Response
-        
-        $outFloodID = $_.Exception.Response.uuid
-        Write-Output "Flood ID is: $outFloodID"
-        Write-Host "##vso[task.setvariable variable=FloodID;]$outFloodID"
-        
+       
         try {
             $result = $_.Exception.Response.GetResponseStream()
             $reader = New-Object System.IO.StreamReader($result, [System.Text.Encoding]::ASCII)
             $reader.BaseStream.Position = 0
             $reader.DiscardBufferedData()
             $responseBody = $reader.ReadToEnd();
-            Write-Output "response body: $responseBody"
+            #Write-Output "response body: $responseBody"
         }
         catch {
             Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Cannot get more information."
@@ -64,4 +60,7 @@ catch {
 
 }
 
-Write-Host "Set environment variable to ($env:FLOODID)"
+#$outFloodID = $_.Exception.Response.uuid
+#Write-Output "Flood ID is: $outFloodID"
+#Write-Host "##vso[task.setvariable variable=FloodID;]$outFloodID"
+#Write-Host "Set environment variable to ($env:FLOODID)"
