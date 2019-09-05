@@ -4,7 +4,7 @@ Set-StrictMode -Version Latest
 
 $access_token = $env:MY_FLOOD_TOKEN
 $api_url = "https://api.flood.io"
-$script_path = 'scripts/01-shopping-cart/cart1.ts'
+$script_path = 'jmeter_1000rpm.jmx'
 
 # local testing
 # $ScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
@@ -12,7 +12,7 @@ $script_path = 'scripts/01-shopping-cart/cart1.ts'
 # $api_url="http://10.0.2.2:3000"
 # $script_path = "$ScriptDirectory\jmeter_1000rpm.jmx";
 
-$uri = "$api_url/api/floods?flood[tool]=flood-chrome&flood[threads]=1&flood[project]=Default&flood[privacy]=public&flood[name]=myAzureTest&flood[grids][][infrastructure]=demand&flood[grids][][instance_quantity]=1&flood[grids][][region]=us-east-1&flood[grids][][instance_type]=m5.xlarge&flood[grids][][stop_after]=60"
+$uri = "$api_url/api/floods?flood[tool]=jmeter&flood[threads]=1&flood[project]=Default&flood[privacy]=public&flood[name]=myAzureTest&flood[grids][][infrastructure]=demand&flood[grids][][instance_quantity]=1&flood[grids][][region]=us-east-1&flood[grids][][instance_type]=m5.xlarge&flood[grids][][stop_after]=60"
 $bytes = [System.Text.Encoding]::ASCII.GetBytes($access_token)
 $base64 = [System.Convert]::ToBase64String($bytes)
 $basicAuthValue = "Basic $base64"
@@ -27,7 +27,7 @@ $LF = "`r`n";
 $contentType = "multipart/form-data; boundary=`"$boundary`""
 $payload = (
     "--$boundary",
-    "Content-Disposition: form-data; name=`"flood_files[]`"; filename=`"cart1.ts`"",
+    "Content-Disposition: form-data; name=`"flood_files[]`"; filename=`"jmeter_1000rpm.jmx`"",
     "Content-Type: application/octet-stream$LF",
     $fileEnc,
     "--$boundary--$LF"
