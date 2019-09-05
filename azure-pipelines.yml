@@ -10,8 +10,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: echo Let's run a Flood on Azure Devops!
+  displayName: 'Announce we are running a Flood'
 
 - task: PowerShell@2
   inputs:
