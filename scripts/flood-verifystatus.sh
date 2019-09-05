@@ -17,9 +17,9 @@ set -e  # exit script if any command returnes a non-zero exit code.
 unset $pFLOOD_API_TOKEN
 unset $pFLOOD_UUID
 
-$pFLOOD_API_TOKEN = $flood_api_token
+$pFLOOD_API_TOKEN = $FLOOD_API_TOKEN
 echo -e "\n>>> FLOOD_API_TOKEN is: $pFLOOD_API_TOKEN"
-$pFLOOD_UUID = $FloodID
+$pFLOOD_UUID = $FLOOD_UUID
 echo -e "\n>>> FLOOD_UUID is: $pFLOOD_UUID"
 
 # PROTIP: use environment variables to pass links to where the secret is really stored: use an additional layer of indirection.
