@@ -12,7 +12,7 @@ $script_path = 'scripts/01-shopping-cart/cart1.ts'
 # $api_url="http://10.0.2.2:3000"
 # $script_path = "$ScriptDirectory\jmeter_1000rpm.jmx";
 
-$uri = "$api_url/api/floods?flood[tool]=flood-chrome&flood[threads]=1&flood[duration]=60&flood[project]=Default&flood[privacy]=public&flood[name]=myAzureTest&flood[grids][][infrastructure]=demand&flood[grids][][instance_quantity]=1&flood[grids][][region]=us-east-1&flood[grids][][instance_type]=m5.xlarge&flood[grids][][stop_after]=60"
+$uri = "$api_url/api/floods?flood[tool]=flood-chrome&flood[threads]=1&flood[project]=Default&flood[privacy]=public&flood[name]=myAzureTest&flood[grids][][infrastructure]=demand&flood[grids][][instance_quantity]=1&flood[grids][][region]=us-east-1&flood[grids][][instance_type]=m5.xlarge&flood[grids][][stop_after]=60"
 $bytes = [System.Text.Encoding]::ASCII.GetBytes($access_token)
 $base64 = [System.Convert]::ToBase64String($bytes)
 $basicAuthValue = "Basic $base64"
@@ -33,7 +33,7 @@ $payload = (
     "--$boundary--$LF"
 ) -join $LF
 
-Write-Output $payload
+#Write-Output $payload
 
 try {
     Invoke-RestMethod -Uri $uri -Method Post -Headers $headers -ContentType $contentType -Body $payload
