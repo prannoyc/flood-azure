@@ -53,7 +53,7 @@ catch {
 
             $outFloodID = $responseBody.uuid
 
-            Write-Host "##vso[task.setvariable variable=myFloodID;]$outFloodID"
+            Write-Host "##vso[task.setvariable variable=FloodID;]$outFloodID"
 
         }
         catch {
