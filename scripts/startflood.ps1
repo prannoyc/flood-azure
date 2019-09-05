@@ -33,7 +33,7 @@ $payload = (
     "--$boundary--$LF"
 ) -join $LF
 
-# Write-Output $payload
+Write-Output $payload
 
 try {
     Invoke-RestMethod -Uri $uri -Method Post -Headers $headers -ContentType $contentType -Body $payload
@@ -50,7 +50,7 @@ catch {
             $reader.BaseStream.Position = 0
             $reader.DiscardBufferedData()
             $responseBody = $reader.ReadToEnd();
-            #Write-Output "response body: $responseBody"
+            Write-Output "response body: $responseBody"
         }
         catch {
             Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Cannot get more information."
