@@ -13,8 +13,8 @@
 set -e  # exit script if any command returnes a non-zero exit code.
 # set -x  # display every command.
 
-echo -e "\n>>> FLOOD_API_TOKEN is: $MY_FLOOD_TOKEN"
-echo -e "\n>>> FLOOD_UUID is: $MY_FLOOD_UUID"
+echo -e ">>> FLOOD_API_TOKEN is: $MY_FLOOD_TOKEN"
+echo -e ">>> flood_uuid is: $flood_uuid"
 
 
 #$pFLOOD_API_TOKEN = $FLOOD_API_TOKEN

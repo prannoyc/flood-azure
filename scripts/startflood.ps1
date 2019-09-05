@@ -40,8 +40,8 @@ try {
 
     $outFloodID = $responseFull.uuid
     Write-Output "Flood ID is: $outFloodID"
-    Write-Host "##vso[task.setvariable variable=FLOODID;]$outFloodID"
-    Write-Output "Flood ID environment variable is: $env:FLOODID"
+    Write-Host "##vso[task.setvariable variable=flood_uuid;]$outFloodID"
+    Write-Output "Flood ID environment variable is: $env:flood_uuid"
 
 }
 catch {
