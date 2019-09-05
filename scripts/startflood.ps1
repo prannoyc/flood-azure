@@ -4,7 +4,7 @@ Set-StrictMode -Version Latest
 
 $access_token = $env:MY_FLOOD_TOKEN
 $api_url = "https://api.flood.io"
-$script_path = 'jmeter_1000rpm.jmx'
+$script_path = 'scripts/jmeter/jmeter_1000rpm.jmx'
 
 # local testing
 # $ScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
