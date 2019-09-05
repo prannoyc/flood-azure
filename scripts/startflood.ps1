@@ -51,6 +51,10 @@ catch {
             $reader.DiscardBufferedData()
             $responseBody = $reader.ReadToEnd();
             Write-Output "response body: $responseBody"
+
+            $outFloodID = $responseBody.uuid
+            Write-Output "Flood ID is: $outFloodID"
+
         }
         catch {
             Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Cannot get more information."
@@ -60,7 +64,5 @@ catch {
 
 }
 
-$outFloodID = $responseBody.uuid
-Write-Output "Flood ID is: $outFloodID"
 #Write-Host "##vso[task.setvariable variable=FloodID;]$outFloodID"
 #Write-Host "Set environment variable to ($env:FLOODID)"
