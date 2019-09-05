@@ -14,13 +14,13 @@ set -e  # exit script if any command returnes a non-zero exit code.
 # set -x  # display every command.
 
 ## Reset data from previous run:
-unset $FLOOD_API_TOKEN
-unset $FLOOD_USER
+unset $pFLOOD_API_TOKEN
+unset $pFLOOD_UUID
 
-$FLOOD_API_TOKEN = $(flood_api_token)
-echo -e "\n>>> FLOOD_API_TOKEN is: $FLOOD_API_TOKEN"
-$FLOOD_UUID = $(FloodID)
-echo -e "\n>>> FLOOD_UUID is: $FLOOD_UUID"
+$pFLOOD_API_TOKEN = $flood_api_token
+echo -e "\n>>> FLOOD_API_TOKEN is: $pFLOOD_API_TOKEN"
+$pFLOOD_UUID = $FloodID
+echo -e "\n>>> FLOOD_UUID is: $pFLOOD_UUID"
 
 # PROTIP: use environment variables to pass links to where the secret is really stored: use an additional layer of indirection.
 # From https://app.flood.io/account/user/security
