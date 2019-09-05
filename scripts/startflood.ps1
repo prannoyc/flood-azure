@@ -36,7 +36,11 @@ $payload = (
 #Write-Output $payload
 
 try {
-    Invoke-RestMethod -Uri $uri -Method Post -Headers $headers -ContentType $contentType -Body $payload
+    $responseFull = Invoke-RestMethod -Uri $uri -Method Post -Headers $headers -ContentType $contentType -Body $payload
+
+    $outFloodID = $responseFull.uuid
+    Write-Output "Flood ID is: $outFloodID"
+
 }
 catch {
     $responseBody = ""
@@ -51,10 +55,6 @@ catch {
             $reader.DiscardBufferedData()
             $responseBody = $reader.ReadToEnd();
             Write-Output "response body: $responseBody"
-
-            $outFloodID = $responseBody.uuid
-            Write-Output "Flood ID is: $outFloodID"
-
         }
         catch {
             Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Cannot get more information."
