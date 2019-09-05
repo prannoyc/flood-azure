@@ -43,6 +43,11 @@ catch {
     $errorMessage = $_.Exception.Message
     if (Get-Member -InputObject $_.Exception -Name 'Response') {
         write-output $_.Exception.Response
+        
+        $outFloodID = $_.Exception.Response.uuid
+        Write-Output "Flood ID is: $outFloodID"
+        Write-Host "##vso[task.setvariable variable=FloodID;]$outFloodID"
+        
         try {
             $result = $_.Exception.Response.GetResponseStream()
             $reader = New-Object System.IO.StreamReader($result, [System.Text.Encoding]::ASCII)
@@ -50,12 +55,6 @@ catch {
             $reader.DiscardBufferedData()
             $responseBody = $reader.ReadToEnd();
             Write-Output "response body: $responseBody"
-
-            $outFloodID = $responseBody.uuid
-            Write-Output "Flood ID is: $outFloodID"
-
-            Write-Host "##vso[task.setvariable variable=FloodID;]$outFloodID"
-
         }
         catch {
             Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Cannot get more information."
