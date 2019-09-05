@@ -18,3 +18,10 @@ steps:
     filePath: 'scripts/startflood.ps1'
   env:
     MY_FLOOD_TOKEN: $(flood_api_token)
+
+- task: Bash@3
+  inputs:
+    filePath: 'scripts/flood-verifystatus.sh'
+  env:
+    MY_FLOOD_TOKEN: $(flood_api_token)
+    FLOODID: $(floodid)
