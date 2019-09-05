@@ -60,7 +60,7 @@ catch {
 
 }
 
-#$outFloodID = $_.Exception.Response.uuid
-#Write-Output "Flood ID is: $outFloodID"
+$outFloodID = $responseBody.uuid
+Write-Output "Flood ID is: $outFloodID"
 #Write-Host "##vso[task.setvariable variable=FloodID;]$outFloodID"
 #Write-Host "Set environment variable to ($env:FLOODID)"
