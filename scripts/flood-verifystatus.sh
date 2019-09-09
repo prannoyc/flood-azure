@@ -15,6 +15,9 @@ set -e  # exit script if any command returnes a non-zero exit code.
 
 echo -e ">>> MY_FLOOD_TOKEN is: $MY_FLOOD_TOKEN"
 echo -e ">>> MY_FLOOD_UUID is: $MY_FLOOD_UUID"
+echo -e ">>> FLOOD_USERNAME is: $FLOOD_USERNAME"
+echo -e ">>> FLOOD_PASSWORD is: $FLOOD_PASSWORD"
+
 
 FLOOD_SLEEP_SECS="10"
 FLOOD_USER=$MY_FLOOD_TOKEN+":x"
@@ -36,7 +39,7 @@ else
 fi
 
    Login=$(curl -X POST https://api.flood.io/oauth/token -F 'grant_type=password' \
-      -F 'username=$FLOOD_USER' -F 'password=') #required username and password
+      -F 'username=$FLOOD_USERNAME' -F 'password=$FLOOD_PASSWORD') #required username and password
    echo -e "Login: $Login"
 
    Token=$(echo $Login | jq -r '.access_token')
