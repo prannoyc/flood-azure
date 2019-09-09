@@ -67,8 +67,11 @@ fi
    echo -e "\n>>> [$(date +%FT%T)+00:00] Flood has finished ... Getting the summary report ..."
    flood_report=$(curl --silent --user $MY_FLOOD_TOKEN:  -X GET https://api.flood.io/floods/$MY_FLOOD_UUID/report \
        | jq -r ".summary" )
+   
    #echo -e "\n>>> [$(date +%FT%T)+00:00] Detailed results at https://api.flood.io/floods/$MY_FLOOD_UUID"
-   echo "$flood_report"  # summary report
+
+   sleep "$FLOOD_SLEEP_SECS"
+   echo "Flood Summary Report: $flood_report"  # summary report
 
    #verify our SLA for 0 failed transactions
    if [ `echo $flood_report | grep -c "0 failed." ` -gt 0 ]
