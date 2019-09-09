@@ -38,8 +38,8 @@ else
    echo -e "\n>>> FLOOD_USER available. Continuing..."
 fi
 
-   Login=$(curl -X POST https://api.flood.io/oauth/token -F 'grant_type=password' -F 'username=$FLOOD_USERNAME' -F 'password=$FLOOD_PASSWORD') #required username and password
-   echo -e "Login: $Login"
+   #Login=$(curl -X POST https://api.flood.io/oauth/token -F 'grant_type=password' -F 'username=$FLOOD_USERNAME' -F 'password=$FLOOD_PASSWORD') #required username and password
+   #echo -e "Login: $Login"
 
    #Token=$(echo $Login | jq -r '.access_token')
    #Patch=$(curl -X PATCH https://api.flood.io/api/v3/floods/$MY_FLOOD_UUID/set-public -H 'Authorization: Bearer '$Token -H 'Content-Type: application/json')
@@ -47,12 +47,12 @@ fi
    #echo -e "Token: $Token"
    #echo -e "Patch: $Patch"
 
-   #echo -e "\n>>> [$(date +%FT%T)+00:00] See dashboard at https://api.flood.io/$MY_FLOOD_UUID while waiting:"
-   #echo "    (One dot every $FLOOD_SLEEP_SECS seconds):"
-   #while [ $(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/floods/$MY_FLOOD_UUID | jq -r '.status == "finished"') = "false" ]; do
-   #  echo -n "."
-   #  sleep "$FLOOD_SLEEP_SECS"
-   #done
+   echo -e "\n>>> [$(date +%FT%T)+00:00] See dashboard at https://api.flood.io/$MY_FLOOD_UUID while waiting:"
+   echo "    (One dot every $FLOOD_SLEEP_SECS seconds):"
+   while [ $(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/floods/$MY_FLOOD_UUID | jq -r '.status == "finished"') = "false" ]; do
+     echo -n "."
+     sleep "$FLOOD_SLEEP_SECS"
+   done
 
    #echo "   ERROR: Authentication required to view this Flood ???"
    #echo -e "\n>>> [$(date +%FT%T)+00:00] Get the summary report"
