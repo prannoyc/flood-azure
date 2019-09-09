@@ -38,8 +38,8 @@ else
    echo -e "\n>>> FLOOD_USER available. Continuing..."
 fi
 
-   curl -X POST https://api.flood.io/oauth/token -F 'grant_type=password' -F 'username=$FLOOD_USERNAME' -F 'password=$FLOOD_PASSWORD' #required username and password
-   #echo -e "Login: $Login"
+   Login=$(curl -X POST https://api.flood.io/oauth/token -F 'grant_type=password' -F 'username=$FLOOD_USERNAME' -F 'password=$FLOOD_PASSWORD') #required username and password
+   echo -e "Login: $Login"
 
    #Token=$(echo $Login | jq -r '.access_token')
    #Patch=$(curl -X PATCH https://api.flood.io/api/v3/floods/$MY_FLOOD_UUID/set-public -H 'Authorization: Bearer '$Token -H 'Content-Type: application/json')
