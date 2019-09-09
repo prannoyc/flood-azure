@@ -21,11 +21,11 @@ FLOOD_USER=$MY_FLOOD_TOKEN+":x"
 
 # PROTIP: use environment variables to pass links to where the secret is really stored: use an additional layer of indirection.
 # From https://app.flood.io/account/user/security
-if [ -z "$FLOOD_API_TOKEN" ]; then
-   echo -e "\n>>> FLOOD_API_TOKEN not available. Exiting..."
+if [ -z "$MY_FLOOD_TOKEN" ]; then
+   echo -e "\n>>> MY_FLOOD_TOKEN not available. Exiting..."
    exit 9
 else
-   echo -e "\n>>> FLOOD_API_TOKEN available. Continuing..."
+   echo -e "\n>>> MY_FLOOD_TOKEN available. Continuing..."
 fi
 ## To sign into https://app.flood.io/account/user/security (API Access)
 if [ -z "$FLOOD_USER" ]; then
