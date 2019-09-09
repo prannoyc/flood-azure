@@ -47,19 +47,18 @@ fi
    #echo -e "Token: $Token"
    #echo -e "Patch: $Patch"
 
-   echo -e "\n>>> [$(date +%FT%T)+00:00] See dashboard at https://api.flood.io/$MY_FLOOD_UUID while waiting:"
-   echo "    (One dot every $FLOOD_SLEEP_SECS seconds):"
+   echo -e "\n>>> [$(date +%FT%T)+00:00] Flood is currently running ... waiting until finished ..."
    while [ $(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/floods/$MY_FLOOD_UUID | jq -r '.status == "finished"') = "false" ]; do
      echo -n "."
      sleep "$FLOOD_SLEEP_SECS"
    done
 
    #echo "   ERROR: Authentication required to view this Flood ???"
-   #echo -e "\n>>> [$(date +%FT%T)+00:00] Get the summary report"
-   #flood_report=$(curl --silent --user $FLOOD_API_TOKEN:  -X GET https://api.flood.io/floods/$flood_uuid/report \
-   #    | jq -r ".summary" )
-   #echo -e "\n>>> [$(date +%FT%T)+00:00] Detailed results at https://api.flood.io/floods/$flood_uuid"
-   #echo "$flood_report"  # summary report
+   echo -e "\n>>> [$(date +%FT%T)+00:00] Get the summary report"
+   flood_report=$(curl --silent --user $MY_FLOOD_TOKEN:  -X GET https://api.flood.io/floods/$MY_FLOOD_UUID/report \
+       | jq -r ".summary" )
+   echo -e "\n>>> [$(date +%FT%T)+00:00] Detailed results at https://api.flood.io/floods/$MY_FLOOD_UUID"
+   echo "$flood_report"  # summary report
 
    #Optionally store the CSV results
    #echo -e "\n>>> [$(date +%FT%T)+00:00] Storing CSV results in results.csv"
