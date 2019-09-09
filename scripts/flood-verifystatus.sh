@@ -13,44 +13,40 @@
 set -e  # exit script if any command returnes a non-zero exit code.
 # set -x  # display every command.
 
-echo -e ">>> FLOOD_API_TOKEN is: $MY_FLOOD_TOKEN"
-echo -e ">>> flood_uuid is: $MY_FLOOD_UUID"
+echo -e ">>> MY_FLOOD_TOKEN is: $MY_FLOOD_TOKEN"
+echo -e ">>> MY_FLOOD_UUID is: $MY_FLOOD_UUID"
 
-
-#$pFLOOD_API_TOKEN = $FLOOD_API_TOKEN
-#echo -e "\n>>> FLOOD_API_TOKEN is: $pFLOOD_API_TOKEN"
-#$pFLOOD_UUID = $FLOOD_UUID
-#echo -e "\n>>> FLOOD_UUID is: $pFLOOD_UUID"
+FLOOD_SLEEP_SECS="10"
+FLOOD_USER=$MY_FLOOD_TOKEN+":x"
 
 # PROTIP: use environment variables to pass links to where the secret is really stored: use an additional layer of indirection.
 # From https://app.flood.io/account/user/security
-#FLOOD_USER=$(flood_api_token)+":x"
-#if [ -z "$FLOOD_API_TOKEN" ]; then
-#   echo -e "\n>>> FLOOD_API_TOKEN not available. Exiting..."
-#   exit 9
-#else
-#   echo -e "\n>>> FLOOD_API_TOKEN available. Continuing..."
-#fi
+if [ -z "$FLOOD_API_TOKEN" ]; then
+   echo -e "\n>>> FLOOD_API_TOKEN not available. Exiting..."
+   exit 9
+else
+   echo -e "\n>>> FLOOD_API_TOKEN available. Continuing..."
+fi
 ## To sign into https://app.flood.io/account/user/security (API Access)
-#if [ -z "$FLOOD_USER" ]; then
-#   echo -e "\n>>> FLOOD_USER not available. Exiting..."
-#   exit 9
-#else
-#   echo -e "\n>>> FLOOD_USER available. Continuing..."
-#fi
+if [ -z "$FLOOD_USER" ]; then
+   echo -e "\n>>> FLOOD_USER not available. Exiting..."
+   exit 9
+else
+   echo -e "\n>>> FLOOD_USER available. Continuing..."
+fi
 
-   #Login=$(curl -X POST https://api.flood.io/oauth/token -F 'grant_type=password' \
-   #   -F 'username=$FLOOD_USERNAME' -F 'password=$FLOOD_PASSWORD') #required username and password
-   ## echo $Login
-   #Token=$(echo $Login | jq -r '.access_token')
-   #Patch=$(curl -X PATCH https://api.flood.io/api/v3/floods/$flood_uuid/set-public -H 'Authorization: Bearer '$Token -H 'Content-Type: application/json')
+   Login=$(curl -X POST https://api.flood.io/oauth/token -F 'grant_type=password' \
+      -F 'username=$FLOOD_USERNAME' -F 'password=$FLOOD_PASSWORD') #required username and password
+   # echo $Login
+   Token=$(echo $Login | jq -r '.access_token')
+   Patch=$(curl -X PATCH https://api.flood.io/api/v3/floods/$flood_uuid/set-public -H 'Authorization: Bearer '$Token -H 'Content-Type: application/json')
 
-   #echo -e "\n>>> [$(date +%FT%T)+00:00] See dashboard at https://api.flood.io/$flood_uuid while waiting:"
-   #echo "    (One dot every $FLOOD_SLEEP_SECS seconds):"
-   #while [ $(curl --silent --user $FLOOD_API_TOKEN: -X GET https://api.flood.io/floods/$flood_uuid | jq -r '.status == "finished"') = "false" ]; do
-   #  echo -n "."
-   #  sleep "$FLOOD_SLEEP_SECS"
-   #done
+   echo -e "\n>>> [$(date +%FT%T)+00:00] See dashboard at https://api.flood.io/$flood_uuid while waiting:"
+   echo "    (One dot every $FLOOD_SLEEP_SECS seconds):"
+   while [ $(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/floods/$MY_FLOOD_UUID | jq -r '.status == "finished"') = "false" ]; do
+     echo -n "."
+     sleep "$FLOOD_SLEEP_SECS"
+   done
 
    #echo "   ERROR: Authentication required to view this Flood ???"
    #echo -e "\n>>> [$(date +%FT%T)+00:00] Get the summary report"
