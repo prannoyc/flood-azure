@@ -24,3 +24,4 @@ steps:
     filePath: 'scripts/flood-verifystatus.sh'
   env:
     MY_FLOOD_TOKEN: $(flood_api_token)
+    MY_FLOOD_UUID: $(flood_uuid)
