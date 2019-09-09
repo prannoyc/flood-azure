@@ -71,13 +71,12 @@ fi
    echo "$flood_report"  # summary report
 
    #verify our SLA for 0 failed transactions
-   if ["$flood_report" == "0 failed."]; then
-    echo "FLOOD PASSED: The Flood ran with 0 Failed transactions." 
-   else 
-    echoerr "FLOOD FAILED: The Flood encountered Failed transactions."
+   if [ `echo $flood_report | grep -c "0 failed." ` -gt 0 ]
+   then
+     echo "FLOOD PASSED: The Flood ran with 0 Failed transactions." 
+   else
+     echoerr "FLOOD FAILED: The Flood encountered Failed transactions."
    fi
-
-   #echoerr "error encountered with Flood results"
 
 
 
