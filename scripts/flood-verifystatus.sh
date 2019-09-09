@@ -49,7 +49,7 @@ fi
 
    #display Grid status
    echo -e "\n>>> [$(date +%FT%T)+00:00] Checking Grid status ... "
-   grid_uuid=$(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/floods/$MY_FLOOD_UUID | jq -r "._embedded.grids | first" )
+   grid_uuid=$(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/floods/$MY_FLOOD_UUID | jq -r "._embedded.grids[0]" )
    echo -e "\n>>> [$(date +%FT%T)+00:00] Grid UUID: $grid_uuid"
    echo -e "\n>>> [$(date +%FT%T)+00:00] Waiting for Grid to become available ..."
    while [ $(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/grids/$grid_uuid | jq -r '.status == "started"') = "false" ]; do
