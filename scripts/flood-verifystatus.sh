@@ -47,32 +47,29 @@ fi
    #echo -e "Token: $Token"
    #echo -e "Patch: $Patch"
 
+   #display Grid status
+   echo -e "\n>>> [$(date +%FT%T)+00:00] Checking Grid status ... "
+   $grid_uuid = $(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/grids | jq -r ".uuid" )
+   echo -e "\n>>> [$(date +%FT%T)+00:00] Grid UUID: $grid_uuid"
+   echo -e "\n>>> [$(date +%FT%T)+00:00] Waiting for Grid to become available ..."
+   while [ $(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/grids/$grid_uuid | jq -r '.status == "started"') = "false" ]; do
+     echo -n "."
+     sleep "$FLOOD_SLEEP_SECS"
+   done
+
+   #display Flood status
    echo -e "\n>>> [$(date +%FT%T)+00:00] Flood is currently running ... waiting until finished ..."
    while [ $(curl --silent --user $MY_FLOOD_TOKEN: -X GET https://api.flood.io/floods/$MY_FLOOD_UUID | jq -r '.status == "finished"') = "false" ]; do
      echo -n "."
      sleep "$FLOOD_SLEEP_SECS"
    done
 
-   #echo "   ERROR: Authentication required to view this Flood ???"
-   echo -e "\n>>> [$(date +%FT%T)+00:00] Get the summary report"
+   echo -e "\n>>> [$(date +%FT%T)+00:00] Flood has finished ... Getting the summary report ..."
    flood_report=$(curl --silent --user $MY_FLOOD_TOKEN:  -X GET https://api.flood.io/floods/$MY_FLOOD_UUID/report \
        | jq -r ".summary" )
-   echo -e "\n>>> [$(date +%FT%T)+00:00] Detailed results at https://api.flood.io/floods/$MY_FLOOD_UUID"
+   #echo -e "\n>>> [$(date +%FT%T)+00:00] Detailed results at https://api.flood.io/floods/$MY_FLOOD_UUID"
    echo "$flood_report"  # summary report
 
-   #Optionally store the CSV results
-   #echo -e "\n>>> [$(date +%FT%T)+00:00] Storing CSV results in results.csv"
-   #curl --silent --user $FLOOD_API_TOKEN: https://api.flood.io/csv/$flood_uuid/$flood_uuid \
-   #   > result.csv
-
-   #if [ ! -f result.csv ]; then
-   #   echo -e "\n>>> result.csv not available. Exiting..."
-   #   exit 9
-   #else
-   #   echo -e "\n>>> result.csv ..."
-   #   head 1 result.csv
-   #      # {"error":"Sorry, we cannot find that resource. If you'd like assistance please contact support@flood.io"}
-   #fi
 
 #done
 
