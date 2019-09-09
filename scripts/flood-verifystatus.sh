@@ -18,6 +18,8 @@ echo -e ">>> MY_FLOOD_UUID is: $MY_FLOOD_UUID"
 echo -e ">>> FLOOD_USERNAME is: $FLOOD_USERNAME"
 echo -e ">>> FLOOD_PASSWORD is: $FLOOD_PASSWORD"
 
+#function write to stderr if we need to report a fail
+echoerr() { echo "$@" 1>&2; }
 
 FLOOD_SLEEP_SECS="10"
 FLOOD_USER=$MY_FLOOD_TOKEN+":x"
@@ -68,8 +70,14 @@ fi
    #echo -e "\n>>> [$(date +%FT%T)+00:00] Detailed results at https://api.flood.io/floods/$MY_FLOOD_UUID"
    echo "$flood_report"  # summary report
 
-   echoerr() { echo "$@" 1>&2; }
-   echoerr "error encountered with Flood results"
+   #verify our SLA for 0 failed transactions
+   if ["$flood_report" == "0 failed."]; then
+    echo "FLOOD PASSED: The Flood ran with 0 Failed transactions." 
+   else 
+    echoerr "FLOOD FAILED: The Flood encountered Failed transactions."
+   fi
+
+   #echoerr "error encountered with Flood results"
 
 
 
