@@ -25,3 +25,5 @@ steps:
   env:
     MY_FLOOD_TOKEN: $(flood_api_token)
     MY_FLOOD_UUID: $(flood_uuid)
+    FLOOD_USERNAME: $(my_flood_username)
+    FLOOD_PASSWORD: $(my_flood_password)
