@@ -29,11 +29,11 @@
       <hashTree/>
       <kg.apc.jmeter.threads.UltimateThreadGroup guiclass="kg.apc.jmeter.threads.UltimateThreadGroupGui" testclass="kg.apc.jmeter.threads.UltimateThreadGroup" testname="jp@gc - Ultimate Thread Group" enabled="true">
         <collectionProp name="ultimatethreadgroupdata">
-          <collectionProp name="941960342">
+          <collectionProp name="183032778">
             <stringProp name="385525939">${__P(threads,100)}</stringProp>
             <stringProp name="0">0</stringProp>
             <stringProp name="138319285">${__P(rampup,1)}</stringProp>
-            <stringProp name="1979638625">${__P(duration,600)}</stringProp>
+            <stringProp name="1726427159">${__P(duration,60)}</stringProp>
             <stringProp name="49">1</stringProp>
           </collectionProp>
         </collectionProp>
@@ -73,7 +73,7 @@
           </kg.apc.jmeter.samplers.DummySampler>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
