@@ -68,13 +68,17 @@ fi
    flood_report=$(curl --silent --user $MY_FLOOD_TOKEN:  -X GET https://api.flood.io/floods/$MY_FLOOD_UUID/report \
        | jq -r ".summary" )
    
+   #mean_error_rate
+   flood_error_rate=$(curl --silent --user $MY_FLOOD_TOKEN:  -X GET https://api.flood.io/floods/$MY_FLOOD_UUID/report \
+       | jq -r ".mean_error_rate" )
+
    #echo -e "\n>>> [$(date +%FT%T)+00:00] Detailed results at https://api.flood.io/floods/$MY_FLOOD_UUID"
 
-   sleep "$FLOOD_SLEEP_SECS"
    echo "Flood Summary Report: $flood_report"  # summary report
+   echo "Flood Mean Error Rate: $flood_error_rate"  # summary report
 
    #verify our SLA for 0 failed transactions
-   if [ `echo $flood_report | grep -c "0 failed." ` -gt 0 ]
+   if [ `echo $flood_error_rate | grep -c "0" ` -gt 0 ]
    then
      echo "FLOOD PASSED: The Flood ran with 0 Failed transactions." 
    else
