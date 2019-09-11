@@ -1,18 +1,22 @@
-#ErrorActionPreference = 'Stop'
-$ProgressPreference = 'SilentlyContinue'
-Set-StrictMode -Version Latest
+########################################################################################################
+#
+# startflood.ps1
+#
+# Created by jason@flood.io (Jason Rizio) - 11th September 2019
+#
+# Description: A PowerShell script that will launch a Flood alongside load testing infrastructure.
+#
+########################################################################################################
 
+#Declare some variables and input parameters
 $access_token = $env:MY_FLOOD_TOKEN
 $api_url = "https://api.flood.io"
 $script_path = 'scripts/jmeter/jmeter_1000rpm.jmx'
 
-# local testing
-# $ScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
-# $access_token = "flood_dev_98d84da5f689fb3171c2d2d5fd802450dc57dec2357b"
-# $api_url="http://10.0.2.2:3000"
-# $script_path = "$ScriptDirectory\jmeter_1000rpm.jmx";
-
+#Setup the API URI that contains all parameters required to start a Grid, Flood and test settings.
 $uri = "$api_url/api/floods?flood[tool]=jmeter&flood[threads]=1&flood[project]=Default&flood[privacy]=public&flood[name]=myAzureTest&flood[grids][][infrastructure]=demand&flood[grids][][instance_quantity]=1&flood[grids][][region]=us-east-1&flood[grids][][instance_type]=m5.xlarge&flood[grids][][stop_after]=10"
+
+#Encode the Flood auth token with Base64 and use it as a header for our request to Flood API
 $bytes = [System.Text.Encoding]::ASCII.GetBytes($access_token)
 $base64 = [System.Convert]::ToBase64String($bytes)
 $basicAuthValue = "Basic $base64"
@@ -20,6 +24,7 @@ $headers = @{
     'Authorization' = $basicAuthValue
 }
 
+#Read the script file and transplant it as part of a UTF-8 based payload
 $fileBytes = [System.IO.File]::ReadAllBytes($script_path);
 $fileEnc = [System.Text.Encoding]::GetEncoding('UTF-8').GetString($fileBytes);
 $boundary = [System.Guid]::NewGuid().ToString();
@@ -33,8 +38,8 @@ $payload = (
     "--$boundary--$LF"
 ) -join $LF
 
-#Write-Output $payload
-
+#Submit the POST request to the Flood API and capture the returned Flood UUID
+#Store the Flood UUID as a variable that can be shared with other Azure Devops steps
 try {
     $responseFull = Invoke-RestMethod -Uri $uri -Method Post -Headers $headers -ContentType $contentType -Body $payload
 
@@ -64,6 +69,3 @@ catch {
     Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Response body: $responseBody"
 
 }
-
-#Write-Host "##vso[task.setvariable variable=FloodID;]$outFloodID"
-#Write-Host "Set environment variable to ($env:FLOODID)"
