@@ -53,13 +53,13 @@ do{
     $responseStatus = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
     $currentGridStatus = $responseStatus.status
 
-    if($currentGridStatus -q "started"){
+    if($currentGridStatus -eq "started"){
         write-output ">> The Grid has started."
     }
 
     if($currentGridStatus -eq "starting"){
         Start-Sleep -Seconds 10
     }
-    
+
 }while($currentGridStatus -eq "starting")
 
