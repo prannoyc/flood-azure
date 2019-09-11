@@ -16,7 +16,7 @@ $headers = @{
 
 try {
     
-    $responseGrid = Invoke-RestMethod -Uri $uri -Method Post -Headers $headers
+    $responseGrid = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
     $outGridID = $responseGrid._embedded.grids[0].uuid
     Write-Output "Grid ID is: $outGridID"
 
