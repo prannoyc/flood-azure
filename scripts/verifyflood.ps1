@@ -49,8 +49,8 @@ write-output ">> Waiting for Grid ($outGridID) to start ..."
 do{
 
     $uri = "$api_url/grids/$outGridID"
-    $responseStatus = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
-    $currentGridStatus = $responseStatus.status
+    $responseStatus1 = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
+    $currentGridStatus = $responseStatus1.status
 
     if($currentGridStatus -eq "started"){
         write-output ">> The Grid has successfully started."
@@ -78,7 +78,7 @@ do{
         Start-Sleep -Seconds 10
     }
 
-}while($currentGridStatus -eq "queued")
+}while($currentFloodStatus -eq "queued")
 
 #wait for the Flood to complete
 write-output ">> Waiting for the Flood ($flood_uuid) to complete ..."
@@ -96,5 +96,5 @@ do{
         Start-Sleep -Seconds 10
     }
 
-}while($currentGridStatus -eq "running")
+}while($currentFloodStatus -eq "running")
 
