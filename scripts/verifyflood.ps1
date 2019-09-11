@@ -19,7 +19,7 @@ try {
     $uri = "$api_url/floods/$flood_uuid"
     $responseGrid = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
     $outGridID = $responseGrid._embedded.grids[0].uuid
-    Write-Output "Grid ID is: $outGridID"
+    Write-Output ">> Grid ID is: $outGridID"
 
 }
 catch {
@@ -45,15 +45,21 @@ catch {
 }
 
 #wait for Grid to start successfully
+write-output ">> Waiting for Grid ($outGridID) to start ..."
+
 do{
 
     $uri = "$api_url/grids/$outGridID"
     $responseStatus = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
     $currentGridStatus = $responseStatus.status
 
-    if($currentGridStatus -eq "starting"){
-        write-output $currentGridStatus
-        Start-Sleep -Seconds 10
+    if($currentGridStatus -q "started"){
+        write-output ">> The Grid has started."
     }
 
+    if($currentGridStatus -eq "starting"){
+        Start-Sleep -Seconds 10
+    }
+    
 }while($currentGridStatus -eq "starting")
+
