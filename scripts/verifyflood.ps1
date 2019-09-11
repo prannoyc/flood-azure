@@ -98,3 +98,43 @@ do{
 
 }while($currentFloodStatus -eq "running")
 
+#get the mean error rate for the flood to use for our SLA verification
+try {
+    
+    $uri = "$api_url/floods/$flood_uuid/report"
+    $responseReport = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
+    $outMeanErrorRate = $responseReport.mean_error_rate
+    Write-Output ">> Mean Error Rate is: $outMeanErrorRate"
+
+}
+catch {
+    $responseBody = ""
+    $errorMessage = $_.Exception.Message
+    if (Get-Member -InputObject $_.Exception -Name 'Response') {
+        write-output $_.Exception.Response
+       
+        try {
+            $result = $_.Exception.Response.GetResponseStream()
+            $reader = New-Object System.IO.StreamReader($result, [System.Text.Encoding]::ASCII)
+            $reader.BaseStream.Position = 0
+            $reader.DiscardBufferedData()
+            $responseBody = $reader.ReadToEnd();
+            Write-Output "response body: $responseBody"
+        }
+        catch {
+            Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Cannot get more information."
+        }
+    }
+    Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Response body: $responseBody"
+
+}
+
+#do the verification
+if($outMeanErrorRate -eq "0"){
+    write-output ">> SUCCESS - the Flood returned no errors or failed transactions."
+}
+else {
+    Write-Error ">> FAILED - the Flood returned errors or failed transactions."
+    exit 1 
+}
+
