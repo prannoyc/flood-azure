@@ -139,11 +139,10 @@ catch {
 }
 
 #Our SLA SUCCESS criteria is that no errors are observed for this test.
-if($outMeanErrorRate -eq "6"){
+if($outMeanErrorRate -eq "0"){
     write-output ">> SUCCESS - the Flood returned no errors or failed transactions."
 }
 else {
     Write-Error ">> FAILED - the Flood returned errors or failed transactions."
-    exit 1 
 }
 
