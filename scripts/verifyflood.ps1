@@ -62,39 +62,31 @@ do{
 
 }while($currentGridStatus -eq "starting")
 
-#wait for the Flood to complete successfully
-write-output ">> Waiting for the Flood ($flood_uuid) to execute and complete ..."
+#wait for the Flood to start from QUEUED successfully
+write-output ">> Waiting for the Flood ($flood_uuid) to start ..."
 do{
 
-    #get the Grid ID
-    try {
-        
-        $uri = "$api_url/floods/$flood_uuid"
-        $responseStatus = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
-        $currentFloodStatus = $responseStatus.status
+    $uri = "$api_url/floods/$flood_uuid"
+    $responseStatus = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
+    $currentFloodStatus = $responseStatus.status
 
+    if($currentFloodStatus -eq "running"){
+        write-output ">> The Flood has started."
     }
-    catch {
-        $responseBody = ""
-        $errorMessage = $_.Exception.Message
-        if (Get-Member -InputObject $_.Exception -Name 'Response') {
-            write-output $_.Exception.Response
-        
-            try {
-                $result = $_.Exception.Response.GetResponseStream()
-                $reader = New-Object System.IO.StreamReader($result, [System.Text.Encoding]::ASCII)
-                $reader.BaseStream.Position = 0
-                $reader.DiscardBufferedData()
-                $responseBody = $reader.ReadToEnd();
-                Write-Output "response body: $responseBody"
-            }
-            catch {
-                Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Cannot get more information."
-            }
-        }
-        Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Response body: $responseBody"
 
+    if($currentFloodStatus -eq "queued"){
+        Start-Sleep -Seconds 10
     }
+
+}while($currentGridStatus -eq "queued")
+
+#wait for the Flood to complete
+write-output ">> Waiting for the Flood ($flood_uuid) to complete ..."
+do{
+
+    $uri = "$api_url/floods/$flood_uuid"
+    $responseStatus = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
+    $currentFloodStatus = $responseStatus.status
 
     if($currentFloodStatus -eq "finished"){
         write-output ">> The Flood has finished."
