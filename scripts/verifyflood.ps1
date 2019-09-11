@@ -14,7 +14,31 @@ $headers = @{
     'Authorization' = $basicAuthValue
 }
 
-$responseGrid = Invoke-RestMethod -Uri $uri -Method Post -Headers $headers
-$outGridID = $responseGrid._embedded.grids[0].uuid
-Write-Output "Grid ID is: $outGridID"
+try {
+    
+    $responseGrid = Invoke-RestMethod -Uri $uri -Method Post -Headers $headers
+    $outGridID = $responseGrid._embedded.grids[0].uuid
+    Write-Output "Grid ID is: $outGridID"
 
+}
+catch {
+    $responseBody = ""
+    $errorMessage = $_.Exception.Message
+    if (Get-Member -InputObject $_.Exception -Name 'Response') {
+        write-output $_.Exception.Response
+       
+        try {
+            $result = $_.Exception.Response.GetResponseStream()
+            $reader = New-Object System.IO.StreamReader($result, [System.Text.Encoding]::ASCII)
+            $reader.BaseStream.Position = 0
+            $reader.DiscardBufferedData()
+            $responseBody = $reader.ReadToEnd();
+            Write-Output "response body: $responseBody"
+        }
+        catch {
+            Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Cannot get more information."
+        }
+    }
+    Throw "An error occurred while calling REST method at: $uri. Error: $errorMessage. Response body: $responseBody"
+
+}
