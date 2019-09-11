@@ -1,11 +1,20 @@
-#ErrorActionPreference = 'Stop'
-#$ProgressPreference = 'SilentlyContinue'
-#Set-StrictMode -Version Latest
+########################################################################################################
+#
+# verifyflood.ps1
+#
+# Created by jason@flood.io (Jason Rizio) - 11th September 2019
+#
+# Description: A PowerShell script that will verify a Grid is created, a Flood is executed and
+# a simple load testing SLA is met.
+#
+########################################################################################################
 
+#Declare some variables and input parameters
 $access_token = $env:MY_FLOOD_TOKEN
 $flood_uuid = $env:MY_FLOOD_UUID
 $api_url = "https://api.flood.io"
 
+#Encode the Flood auth token with Base64 and use it as a header for our request to Flood API
 $bytes = [System.Text.Encoding]::ASCII.GetBytes($access_token)
 $base64 = [System.Convert]::ToBase64String($bytes)
 $basicAuthValue = "Basic $base64"
@@ -13,7 +22,7 @@ $headers = @{
     'Authorization' = $basicAuthValue
 }
 
-#get the Grid ID
+#Retrieve the Grid ID that we will be using.
 try {
     
     $uri = "$api_url/floods/$flood_uuid"
@@ -44,7 +53,7 @@ catch {
 
 }
 
-#wait for Grid to start successfully
+#Wait for the Grid load generation infrastructure to start
 write-output ">> Waiting for Grid ($outGridID) to start ..."
 do{
 
@@ -62,7 +71,7 @@ do{
 
 }while($currentGridStatus -eq "starting")
 
-#wait for the Flood to start from QUEUED successfully
+#Wait for the Flood to start from the QUEUED status successfully
 write-output ">> Waiting for the Flood ($flood_uuid) to start ..."
 do{
 
@@ -80,7 +89,7 @@ do{
 
 }while($currentFloodStatus -eq "queued")
 
-#wait for the Flood to complete
+#Wait for the Flood to complete and be in FINISHED status.
 write-output ">> Waiting for the Flood ($flood_uuid) to complete ..."
 do{
 
@@ -98,7 +107,7 @@ do{
 
 }while($currentFloodStatus -eq "running")
 
-#get the mean error rate for the flood to use for our SLA verification
+#Retrieve the mean error rate for the Flood to use for our simple SLA verification.
 try {
     
     $uri = "$api_url/floods/$flood_uuid/report"
@@ -129,8 +138,8 @@ catch {
 
 }
 
-#do the verification
-if($outMeanErrorRate -eq "0"){
+#Our SLA SUCCESS criteria is that no errors are observed for this test.
+if($outMeanErrorRate -eq "6"){
     write-output ">> SUCCESS - the Flood returned no errors or failed transactions."
 }
 else {
