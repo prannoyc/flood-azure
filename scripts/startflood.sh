@@ -37,12 +37,14 @@ fi
   -F "flood[threads]=5" \
   -F "flood[name]=${FLOOD_NAME}" \
   -F "flood[tag_list]=ci,shakeout" \
-  -F "flood_files[]=@wordpress-demo.ts" \
+  -F "flood_files[]=@cripts/jmeter/002_MCI.jmx" \
+  -F "flood_files[]=@scripts/jmeter/MCI.csv" \
   -F "flood[grids][][infrastructure]=demand" \
   -F "flood[grids][][instance_quantity]=1" \
   -F "flood[grids][][region]=us-west-2" \
   -F "flood[grids][][instance_type]=m5.xlarge" \
   -F "flood[grids][][stop_after]=15" | jq -r ".uuid" )
+  
 
    #-F "flood_files[]=@specs/baseline.ts"
    echo -e "Launch: $launch"
